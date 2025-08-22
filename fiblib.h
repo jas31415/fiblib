@@ -105,7 +105,7 @@ namespace fib
     // 340282366920938463463374607431768211455 <-- hypothetical UINT128_MAX
 
 
-    constexpr uint64_t get_recursive(const uint8_t n)
+    constexpr uint64_t get_single_recursive(const uint8_t n)
     {
         if (n == 0)
         {
@@ -115,7 +115,7 @@ namespace fib
         {
             return 1;
         }
-        return get_recursive(n - 1) + get_recursive(n - 2);
+        return get_single_recursive(n - 1) + get_single_recursive(n - 2);
     }
 
 }
