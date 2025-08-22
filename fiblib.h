@@ -13,9 +13,6 @@
 #include <utility>  // integer_sequence
 
 
-// a
-
-
 namespace fib
 {
 	/**

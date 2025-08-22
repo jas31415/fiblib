@@ -13,7 +13,6 @@
 
 #include "fiblib.h"
 
-import std;
 
 int main()
 {
