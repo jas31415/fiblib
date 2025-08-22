@@ -25,13 +25,9 @@ namespace fib
 	
 	consteval uint64_t get_single_recursive(const uint8_t n)
 	{
-		if (n == 0) [[unlikely]]
+		if (n < 2) [[unlikely]]
 		{
-			return 0;
-		}
-		if (n <= 2) [[likely]]
-		{
-			return 1;
+			return n;
 		}
 		return get_single_recursive(n - 1) + get_single_recursive(n - 2);
 	}
