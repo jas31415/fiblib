@@ -25,11 +25,11 @@ namespace fib
 	
 	constexpr uint64_t get_single_recursive(const uint8_t n)
 	{
-		if (n == 0)
+		if (n == 0) [[unlikely]]
 		{
 			return 0;
 		}
-		if (n <= 2)
+		if (n <= 2) [[likely]]
 		{
 			return 1;
 		}
