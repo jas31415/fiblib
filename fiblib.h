@@ -1,12 +1,11 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 
 
 namespace fib
 {
-    // this is used for testing during development
-    #ifdef FIBLIB_USE_LOOKUP
-    constexpr inline uint64_t lookup_table [] {
+    // The first 93 fibonacci numbers. Any higher fibnums do not fit inside of a uint64.
+    constexpr uint64_t lookup_table [] {
         1,
         1,
         2,
@@ -102,11 +101,21 @@ namespace fib
         12200160415121876738,
     //  18446744073709551615 <-- UINT64_MAX
     };
-    #endif // FIBLIB_USE_LOOKUP
+    // 332825110087067562321196029789634457848 <-- 186th fibnum
+    // 340282366920938463463374607431768211455 <-- hypothetical UINT128_MAX
 
-    inline constexpr int fib(int)
+
+    constexpr uint64_t get_recursive(const uint8_t n)
     {
-        return 0;
+        if (n == 0)
+        {
+            return 0;
+        }
+        if (n <= 2)
+        {
+            return 1;
+        }
+        return get_recursive(n - 1) + get_recursive(n - 2);
     }
-     
+
 }
