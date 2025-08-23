@@ -137,7 +137,7 @@ private:
 
 int main()
 {
-	// seed the randomizer
+	// seed the randomizer and get the rand value of the day
 	srand(static_cast<unsigned>(time(nullptr)));
 	uint8_t n{ get_random<uint8_t>() % fib::lookup_table.size() };
 	println_flush("The random number 'n' today is {}.\n", n);
