@@ -7,13 +7,15 @@
  * 
  */
 
-#include <print>		// println()
-#include <functional>	// function<>
-#include <cstdint>		// uint types
+#include <print>	// println()
+#include <cstdint>	// uint types
 
 #include "fiblib.h"
 
+
 int main()
 {
-	
+	uint8_t n{ 10 };
+	std::println("fib::lookup_table[{}]         {}", n, fib::lookup_table[n]);
+	std::println("fib::get_single_recursive({}) {}", n, fib::get_single_recursive(n));
 }

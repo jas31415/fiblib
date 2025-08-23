@@ -16,7 +16,7 @@
 namespace fib
 {
 	/**
-	 * The first 93 Fibonacci numbers.
+	 * The first 94 Fibonacci numbers.
 	 * Any larger fibnums do not fit inside of a uint64.
 	 */
 	[[maybe_unused]]
