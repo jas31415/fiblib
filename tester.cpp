@@ -157,7 +157,7 @@ int main()
 		{
 			println_flush("{}({}) failed.", tester.get_name(), n);
 			request_exit();
-			failed_funcs_names.push_front(tester.get_name());			
+			failed_funcs_names.push_front(tester.get_name());
 		}
 		println_flush("{}({}) succeeded.", tester.get_name(), n);
 	}
