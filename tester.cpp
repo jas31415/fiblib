@@ -87,12 +87,12 @@ inline std::string& concatenate(const std::forward_list<std::string>& strings)
  */
 class function_tester final
 {
-	using clock = std::chrono::steady_clock;
-	using time_point = std::chrono::time_point<clock>;
-	using duration = std::chrono::duration<double, std::milli>;
 	using reference = function_tester&;
 	using const_reference = const function_tester&;
 	using rvalue_reference = function_tester&&;
+	using clock = std::chrono::steady_clock;
+	using time_point = std::chrono::time_point<clock>;
+	using duration = std::chrono::duration<double, std::milli>;
 	
 public:
 	// rule of 5
