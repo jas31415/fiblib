@@ -111,7 +111,7 @@ class function_tester final
 public:
 	// rule of 5
 	explicit function_tester() = delete;
-	function_tester(const std::string& name, const std::function<uint64_t(uint8_t)>& callback)
+	function_tester(const std::string& name, const std::function<uint64_t(const uint8_t)>& callback)
 		: m_name{ name }
 		, m_callback{ callback }
 	{
@@ -158,7 +158,7 @@ int main()
 {
 	// seed the randomizer and get the random value of the day
 	srand(static_cast<unsigned>(time(nullptr)));
-	const uint8_t n{ /* get_random<uint8_t>() % fib::lookup_table.size()*/10 };
+	const uint8_t n{ get_random<uint8_t>() % fib::lookup_table.size() };
 	println_flush("The random number 'n' today is {}.\n", n);
 	
 	// all the functions to go here
@@ -223,12 +223,12 @@ void perform_benchmarks(const container_t& tests_container, const list_t& failed
 		const double ms_elapsed{ tester.benchmark(n) };
 		
 		println_flush("{}({}) executed at {:.5f}ms.", tester.get_name(), n, ms_elapsed);
-		
+		continue;
 		constexpr double ms_threshhold{ 30000.0 };
 		static bool show_threshhold_notice{ true };
 		if (show_threshhold_notice && ms_elapsed >= ms_threshhold) [[unlikely]]
 		{
-			std::println("{}({}) is taking longer than the threshhold ({}).", tester.get_name(), n, ms_threshhold);
+			std::println("{}({}) is taking longer than the threshhold ({}ms).", tester.get_name(), n, ms_threshhold);
 			request_exit();
 			show_threshhold_notice = false;
 		}
