@@ -40,7 +40,7 @@ namespace fib
 		
 		// these start as F(1) and F(2) respectively
 		uint64_t previous{ 1 }, current{ 1 };
-		for (uint8_t iteration{}; iteration <= n; iteration++)
+		for (uint8_t iteration{ 2 }; iteration < n; iteration++)
 		{
 			const uint64_t current_copy{ current };
 			current += previous;

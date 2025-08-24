@@ -67,6 +67,7 @@ void println_flush(const std::format_string<types...>& format, types&&... args)
 #ifdef _MSC_VER
 # pragma warning( disable : 4172 )
 #endif
+// this thing concatenates an fwlist of strings in one string
 inline std::string& concatenate(const std::forward_list<std::string>& strings)
 {
 	std::string concatenated_strings;
@@ -81,6 +82,7 @@ inline std::string& concatenate(const std::forward_list<std::string>& strings)
 # pragma warning( default : 4172 )
 #endif
 
+// this thing determines whether or not a fwlist contains an item via value comparison
 inline bool list_contains_item(const std::forward_list<std::string>& list, const std::string& item)
 {
 	for (const std::string& string : list)
@@ -147,12 +149,16 @@ private:
 };
 
 
+template<class container_t>
+const std::forward_list<std::string> perform_tests(const container_t& tests_container, const uint8_t n);
+template<class container_t, class list_t>
+void perform_benchmarks(const container_t& tests_container, const list_t& failed_funcs_names, const uint8_t n);
+
 int main()
 {
 	// seed the randomizer and get the random value of the day
 	srand(static_cast<unsigned>(time(nullptr)));
-	uint8_t n{ get_random<uint8_t>() % fib::lookup_table.size() };
-	n = 10;
+	const uint8_t n{ /* get_random<uint8_t>() % fib::lookup_table.size()*/10 };
 	println_flush("The random number 'n' today is {}.\n", n);
 	
 	// all the functions to go here
@@ -164,14 +170,17 @@ int main()
 	};
 	
 	// first thing, test if all functions operate properly, and collect failures
-	const std::forward_list<std::string> failed_funcs_names{ perform_tests(testies) };
+	const std::forward_list<std::string> failed_funcs_names{ perform_tests(testies, n) };
 	
 	// now we do benchmarks on every function
-	perform_benchmarks(testies, failed_funcs_names);
+	perform_benchmarks(testies, failed_funcs_names, n);
 }
 
+#ifdef _MSC_VER
+# pragma warning( disable : 4172 )
+#endif
 template<class container_t>
-const std::forward_list<std::string>& perform_tests(const container_t& tests_container)
+const std::forward_list<std::string> perform_tests(const container_t& tests_container, const uint8_t n)
 {
 	std::forward_list<std::string> failed_funcs_names;
 	
@@ -199,8 +208,8 @@ const std::forward_list<std::string>& perform_tests(const container_t& tests_con
 	return failed_funcs_names;
 }
 
-template <class container_t, class list_t>
-void perform_benchmarks(const container_t& tests_container, const list_t& failed_func_names)
+template<class container_t, class list_t>
+void perform_benchmarks(const container_t& tests_container, const list_t& failed_func_names, const uint8_t n)
 {
 	// benchmarks begin here
 	for (const function_tester& tester : tests_container)
@@ -229,3 +238,6 @@ void perform_benchmarks(const container_t& tests_container, const list_t& failed
 	println_flush("All functions have been benchmarked.");
 	/* todo: order functions by performance */
 }
+#ifdef _MSC_VER
+# pragma warning( default : 4172 )
+#endif
