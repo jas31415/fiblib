@@ -223,7 +223,7 @@ void perform_benchmarks(const container_t& tests_container, const list_t& failed
 		const double ms_elapsed{ tester.benchmark(n) };
 		
 		println_flush("{}({}) executed at {:.5f}ms.", tester.get_name(), n, ms_elapsed);
-		continue;
+		
 		constexpr double ms_threshhold{ 30000.0 };
 		static bool show_threshhold_notice{ true };
 		if (show_threshhold_notice && ms_elapsed >= ms_threshhold) [[unlikely]]
