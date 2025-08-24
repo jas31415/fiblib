@@ -149,21 +149,34 @@ private:
 
 int main()
 {
-	// seed the randomizer and get the rand value of the day
+	// seed the randomizer and get the random value of the day
 	srand(static_cast<unsigned>(time(nullptr)));
 	uint8_t n{ get_random<uint8_t>() % fib::lookup_table.size() };
+	n = 10;
 	println_flush("The random number 'n' today is {}.\n", n);
 	
 	// all the functions to go here
-	std::array<function_tester, 1> testies
+	std::array<function_tester, 2> testies
 	{
-		function_tester{ "get_single_recursive", fib::get_single_recursive }
+		function_tester{ "get_single_recursive", fib::get_single_recursive },
+		function_tester{ "get_single_iterative", fib::get_single_iterative }
 		/* add more later! =3 */
 	};
 	
-	// first thing, test if all functions operate properly
+	// first thing, test if all functions operate properly, and collect failures
+	const std::forward_list<std::string> failed_funcs_names{ perform_tests(testies) };
+	
+	// now we do benchmarks on every function
+	perform_benchmarks(testies, failed_funcs_names);
+}
+
+template<class container_t>
+const std::forward_list<std::string>& perform_tests(const container_t& tests_container)
+{
 	std::forward_list<std::string> failed_funcs_names;
-	for (const function_tester& tester : testies)
+	
+	// tests happen here
+	for (const function_tester& tester : tests_container)
 	{
 		if (tester.test(n)) [[unlikely]] // heh...
 		{
@@ -174,24 +187,36 @@ int main()
 		println_flush("{}({}) succeeded.", tester.get_name(), n);
 	}
 	
+	// general wrap-up
 	println_flush("All functions have been tested.");
 	if (!failed_funcs_names.empty()) [[unlikely]] // heh2...
 	{
 		std::println("The following functions failed:");
-		std::string concatenated_funcs_names{  };
 		println_flush("{}", concatenate(failed_funcs_names));
 	}
 	std::cout << std::endl;
 	
-	// now we do benchmarks on every function
-	for (const function_tester& tester : testies)
+	return failed_funcs_names;
+}
+
+template <class container_t, class list_t>
+void perform_benchmarks(const container_t& tests_container, const list_t& failed_func_names)
+{
+	// benchmarks begin here
+	for (const function_tester& tester : tests_container)
 	{
+		if (list_contains_item(failed_func_names, tester.get_name())) [[unlikely]] // heh3...
+		{
+			println_flush("{}({}) was not benchmarked, because it failed during testing.", tester.get_name(), n);
+			continue;
+		}
+		
 		const double ms_elapsed{ tester.benchmark(n) };
 		
 		println_flush("{}({}) executed at {:.5f}ms.", tester.get_name(), n, ms_elapsed);
 		
-		static bool show_threshhold_notice{ true };
 		constexpr double ms_threshhold{ 30000.0 };
+		static bool show_threshhold_notice{ true };
 		if (show_threshhold_notice && ms_elapsed >= ms_threshhold) [[unlikely]]
 		{
 			std::println("{}({}) is taking longer than the threshhold ({}).", tester.get_name(), n, ms_threshhold);
@@ -199,6 +224,8 @@ int main()
 			show_threshhold_notice = false;
 		}
 	}
+	
+	// general wrap-up
 	println_flush("All functions have been benchmarked.");
 	/* todo: order functions by performance */
 }
