@@ -81,6 +81,18 @@ inline std::string& concatenate(const std::forward_list<std::string>& strings)
 # pragma warning( default : 4172 )
 #endif
 
+inline bool list_contains_item(const std::forward_list<std::string>& list, const std::string& item)
+{
+	for (const std::string& string : list)
+	{
+		if (string.compare(item) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 /**
  * used to test whether a function works and to benchmark it
  * includes `name` for debugging purposes
