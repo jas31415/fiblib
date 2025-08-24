@@ -31,7 +31,7 @@ namespace fib
 		return get_single_recursive(n - 1) + get_single_recursive(n - 2);
 	}
 	
-	constexpr uint64_t get_single_iterative(uint8_t n)
+	constexpr uint64_t get_single_iterative(const uint8_t n)
 	{
 		if (n < 2) [[unlikely]]
 		{
