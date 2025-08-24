@@ -70,9 +70,9 @@ void println_flush(const std::format_string<types...>& format, types&&... args)
 inline std::string& concatenate(const std::forward_list<std::string>& strings)
 {
 	std::string concatenated_strings;
-	for (auto iter{ strings.begin() }; iter != strings.end(); iter++)
+	for (auto iterator{ strings.begin() }; iterator != strings.end(); iterator++)
 	{
-		concatenated_strings += *iter + ", ";
+		concatenated_strings += *iterator + ", ";
 	}
 
 	return concatenated_strings;
