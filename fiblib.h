@@ -31,9 +31,22 @@ namespace fib
 		return get_single_recursive(n - 1) + get_single_recursive(n - 2);
 	}
 	
-	constexpr uint64_t get_single_iterative(const uint8_t n)
+	constexpr uint64_t get_single_iterative(uint8_t n)
 	{
-		/* wawa */
-		return 0;
+		if (n < 2) [[unlikely]]
+		{
+			return n;
+		}
+		
+		// these start as F(1) and F(2) respectively
+		uint64_t previous{ 1 }, current{ 1 };
+		for (uint8_t iteration{}; iteration <= n; iteration++)
+		{
+			const uint64_t current_copy{ current };
+			current += previous;
+			previous = current_copy;
+		}
+		
+		return current;
 	}
 }
