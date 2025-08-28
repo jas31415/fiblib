@@ -58,7 +58,7 @@ namespace fib
 		{
 			return n;
 		}
-				
+		
 		constexpr double phi{ std::numbers::phi };
 		constexpr double phi_conjugate{ -(phi - 1) };
 		
