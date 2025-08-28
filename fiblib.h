@@ -11,6 +11,7 @@
 #pragma once
 #include <cstdint>  // uint types
 #include <array>  	// array
+#include <numbers>	// phi
 
 
 namespace fib
@@ -48,5 +49,27 @@ namespace fib
 		}
 		
 		return current;
+	}
+	
+	[[deprecated("The binet method creates floating point errors starting from F(72), from which point on, results will disastrously stray off course.")]]
+	constexpr uint64_t get_single_binet(const uint8_t n)
+	{
+		if (n < 2) [[unlikely]]
+		{
+			return n;
+		}
+				
+		constexpr double phi{ std::numbers::phi };
+		constexpr double phi_conjugate{ -(phi - 1) };
+		
+		double phi_pow_n{ phi };
+		double phi_conjugate_pow_n{ phi_conjugate };
+		for (uint8_t power_of{ 0 }; power_of < n - 1; power_of++) [[likely]]
+		{
+			phi_pow_n *= phi;
+			phi_conjugate_pow_n *= phi_conjugate;
+		}
+		
+		return (phi_pow_n - phi_conjugate_pow_n) / (phi - phi_conjugate);
 	}
 }

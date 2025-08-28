@@ -34,7 +34,7 @@ void request_exit()
 {
 start_request_exit:
 	char response{};
-	std::println("Exit program? y/n");
+	std::print("Exit program? y/n");
 	std::cin >> response;
 	switch (response)
 	{
@@ -68,13 +68,15 @@ void println_flush(const std::format_string<types...>& format, types&&... args)
 # pragma warning( disable : 4172 )
 #endif
 // this thing concatenates an fwlist of strings in one string
-inline std::string& concatenate(const std::forward_list<std::string>& strings)
+inline std::string concatenate(const std::forward_list<std::string>& strings)
 {
 	std::string concatenated_strings;
 	for (auto iterator{ strings.begin() }; iterator != strings.end(); iterator++)
 	{
 		concatenated_strings += *iterator + ", ";
 	}
+	concatenated_strings.pop_back(); // gets rid of final ','
+	concatenated_strings.pop_back(); // gets rid of final ' '
 
 	return concatenated_strings;
 }
@@ -165,7 +167,8 @@ int main()
 	std::array<function_tester, 2> testies
 	{
 		function_tester{ "get_single_recursive", fib::get_single_recursive },
-		function_tester{ "get_single_iterative", fib::get_single_iterative }
+		function_tester{ "get_single_iterative", fib::get_single_iterative },
+		// function_tester{ "get_single_binet", fib::get_single_binet },
 		/* add more later! =3 */
 	};
 	
@@ -201,7 +204,8 @@ const std::forward_list<std::string> perform_tests(const container_t& tests_cont
 	if (!failed_funcs_names.empty()) [[unlikely]] // heh2...
 	{
 		std::println("The following functions failed:");
-		println_flush("{}", concatenate(failed_funcs_names));
+		std::string concatenated_strings{ concatenate(failed_funcs_names) };
+		println_flush("{}", concatenated_strings);
 	}
 	std::cout << std::endl;
 	
