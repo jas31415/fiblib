@@ -51,8 +51,8 @@ namespace fib
 		return current;
 	}
 	
-	[[deprecated("The binet method causes floating point precision limitation starting from F(72), from which point on, results will disastrously stray off course.")]]
-	constexpr uint64_t get_single_binet(const uint8_t n)
+	[[deprecated("The closed-form expression method causes floating point precision limitation starting from F(72), from which point on, results will disastrously stray off course.")]]
+	constexpr uint64_t get_single_closed_form(const uint8_t n)
 	{
 		if (n < 2) [[unlikely]]
 		{

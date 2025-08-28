@@ -168,7 +168,7 @@ int main()
 	{
 		function_tester{ "get_single_recursive", fib::get_single_recursive },
 		function_tester{ "get_single_iterative", fib::get_single_iterative },
-		// function_tester{ "get_single_binet", fib::get_single_binet },
+		// function_tester{ "get_single_closed_form", fib::get_single_closed_form },
 		/* add more later! =3 */
 	};
 	
